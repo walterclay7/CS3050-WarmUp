@@ -12,4 +12,3 @@ def query():
 def printToTerminal():
     pass
 
-woof
