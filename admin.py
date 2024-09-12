@@ -1,5 +1,4 @@
-# Read json info into python
-
+from config_firestore import db
 import json
 
 with open('books.json', 'r') as file:
