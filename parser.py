@@ -7,10 +7,9 @@ def tokenize(userIn):
     intermediate = []
     output = []
 
-    userIn.strip()
+    userIn = userIn.strip()
     #If the string is empty, return a list with an empty string
     if len(userIn) == 0:
-        output.append("")
         return output
     #Track whether the string starts with a "
     if userIn[1] == '"':
@@ -19,33 +18,16 @@ def tokenize(userIn):
     #Separate by "
     intermediate = userIn.split('"')
 
-    #Iterate through these strings in order to separate the ones that weren't in double quotes by spaces
-    i = 0
-    while i < len(intermediate):
-        #If we started with a ", every odd string is not in double quotes
-        if startsWithDoubleQuote:
-            if i % 2 != 0:                              #Odd string
-                intermediate[i].split()                 #Not in "", split it
-                j = 0
-                while j < len(intermediate[i]):
-                    output.append(intermediate[i][j])
-                    j += 1
-            else:
-                output.append(intermediate[i])          #In "", add it whole
-        #Otherwise, every even string
+    # Iterate through the strings to separate those not in double quotes by spaces
+    for i in range(len(intermediate)):
+        # For the parts not in quotes
+        if i % 2 == 0:
+            # Split and extend the output with the split tokens
+            output.extend(intermediate[i].split())
         else:
-            if i % 2 == 0:                              #Even string
-                print(intermediate)
-                intermediate[i].split()                 #Not in "", split it
-                print(intermediate)
-                j = 0
-                while j < len(intermediate[i]):
-                    output.append(intermediate[i][j])
-                    j += 1
-            else:
-                output.append(intermediate[i])          #In "", add it whole
-        i += 1
-    
+            # For parts in quotes, append the whole part
+            output.append(intermediate[i])
+
     return output
 
 
@@ -55,3 +37,4 @@ def main():
     return 0
 
 main()
+
