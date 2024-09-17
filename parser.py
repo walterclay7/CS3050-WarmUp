@@ -1,7 +1,6 @@
-
-#userIn is the string to be tokenized
-#returns a list of strings, which are the tokens
-#tokens are separated by spaces, but not spaces that are inside double quotes
+# userIn is the string to be tokenized
+# returns a list of strings, which are the tokens
+# tokens are separated by spaces, but not spaces that are inside double quotes
 def tokenize(userIn):
     startsWithDoubleQuote = False
     intermediate = []
@@ -30,6 +29,25 @@ def tokenize(userIn):
 
     return output
 
+# Prints the help menu.
+# Returns 0.
+def printHelp():
+    print('help: returns this menu.')
+    print('title is "text": returns a list of all book titles where the title includes'
+          ' the text between the quotation marks.'
+          '\nIn the case of an exact match, instead returns all information on record'
+          ' about the book.')
+    print('author is "text": returns a list of all book titles where the author\'s'
+          ' name includes the text between the quotation marks.')
+    print('genre is "text": returns a list of all book titles where the genre on'
+          ' record includes the text between the quotation marks.')
+    print('published in/before/after year: returns a list of all books published'
+          ' before, after, or on the specified integer year. Use negative numbers'
+          ' for years BCE.')
+    print('all titles/authors/genres: returns a list of all titles, authors, or'
+          ' genres on file')
+    print('quit: exit the program')
+    return 0
 
 def main():
 
