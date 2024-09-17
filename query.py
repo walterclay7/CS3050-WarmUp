@@ -21,10 +21,9 @@ def query_retrieve(keyword, operator, user_ln):
 
 docs = (db.collection('books')
         .where(filter=FieldFilter('author', '==', 'J.R.R. Tolkien'))
-        )
+        .where(filter=FieldFilter('published_year', '<', 1940))
+        .stream())
 
-docs2 = (docs.where(filter=FieldFilter('published_year', '<', 1940))
-         .stream())
 # Set of (remove duplicates)
-for doc in docs2:
+for doc in docs:
     print(doc.to_dict())
