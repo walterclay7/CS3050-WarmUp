@@ -20,6 +20,9 @@ def query_retrieve(keyword, operator, user_ln):
             #remove duplicates
             result = set(result)
         else:
+            print(key)
+            print(op)
+            print(line)
             docs = db.collection('books').where(filter=FieldFilter(key,op,line)).stream()
             if(key == 'title'):
                 for doc in docs:
@@ -32,7 +35,7 @@ def query_retrieve(keyword, operator, user_ln):
     else:
         pass
 
-
+    return result
     
 
 
@@ -45,4 +48,4 @@ docs = (db.collection('books')
 
 # Set of (remove duplicates)
 for doc in docs:
-    print(doc.to_dict())
+    print(doc.to_dict()['title'])

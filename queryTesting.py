@@ -2,27 +2,27 @@ import query
 
 def simple_query_test():
     #author tests
-    if(query.queryRetieve(['author'],['=='],['homer']) == ['The Iliad', 'The Odyssey']):
+    if(query.query_retrieve(['author'],['=='],['homer']) == ['The Iliad', 'The Odyssey']):
         print("PASSED AUTHOR SIMPLE")
     else:
         print("FAILED AUTHOR SIMPLE")
     #genre tests
-    if(query.queryRetieve(['genre'],['=='],['Southern Gothic']) == ['The Sound and the Fury']):
+    if(query.query_retrieve(['genre'],['=='],['Southern Gothic']) == ['The Sound and the Fury']):
         print("PASSED GENRE SIMPLE")
     else:
         print("FAILED GENRE SIMPLE")
     #title tests
-    if(query.queryRetieve(['title'],['=='],['the hobbit']) == ['J.R.R. Tolkien','Fantasy',1937,'The Hobbit']):
+    if(query.query_retrieve(['title'],['=='],['the hobbit']) == ['The Hobbit',1937,'J.R.R. Tolkien','Fantasy']):
         print("PASSED TITLE SIMPLE")
     else:
         print("FAILED TITLE SIMPLE") 
     #published_year tests
-    if(query.queryRetieve(['published_year'],['<='],[0]) == ['The Iliad', 'The Odyssey']):
+    if(query.query_retrieve(['published_year'],['<='],[0]) == ['The Iliad', 'The Odyssey']):
         print("PASSED PUBLISHED SIMPLE")
     else:
         print("FAILED PUBLISHED SIMPLE")
     #failed query
-    if(query.queryRetieve(['author'],['=='],['triangle']) == []):
+    if(query.query_retrieve(['author'],['=='],['triangle']) == []):
         print("PASSED WRONG SIMPLE")
     else:
         print("FAILED WRONG SIMPLE")
@@ -48,3 +48,6 @@ def all_query_test():
         print("PASSED ALL PUBLISHED YEARS")
     else:
         print("FAILED ALL PUBLISHED YEARS")
+
+#simple_query_test()
+print(query.query_retrieve(['author'],['=='],['Homer']))
