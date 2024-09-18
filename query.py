@@ -26,7 +26,7 @@ def query_retrieve(keyword, operator, user_ln):
                     result.append(doc.to_dict().values())
             else:
                 for doc in docs:
-                    result.append(doc.to_dict()[key])
+                    result.append(doc.to_dict()['title'])
 
     # Compund queries
     else:
