@@ -3,18 +3,37 @@ import firebase_admin
 from google.cloud.firestore_v1 import FieldFilter
 
 def query_retrieve(keyword, operator, user_ln):
-    pass
-    # Check for 1 or 2 queries (maybe recursion)
+    # Check for 1 or 2 queries 
+    result = []
 
-    # Hard code 4 cases
+    if len(keyword) == 1:
+        line = user_ln[0]
+        op = operator[0]
+        key = keyword[0]
+        if(line == 'ALL'):
+            #get all books
+            docs = db.collection('books').stream()
 
-    # Single queries
+            #for each book, get the info they are looking for
+            for doc in docs:
+                result.append(doc.to_dict()[key])
+            #remove duplicates
+            result = set(result)
+        else:
+            docs = db.collection('books').where(filter=FieldFilter(key,op,line)).stream()
+            if(key == 'title'):
+                for doc in docs:
+                    result.append(doc.to_dict().values())
+            else:
+                for doc in docs:
+                    result.append(doc.to_dict()[key])
 
     # Compund queries
+    else:
+        pass
 
-    # The ALL
 
-    # Return list of all books
+    
 
 
 
