@@ -16,17 +16,17 @@ def query_retrieve(keyword, operator, user_ln):
 
             #for each book, get the info they are looking for
             for doc in docs:
-                result.append(doc.to_dict()[key])
+                book = doc.to_dict()
+                if key in book:
+                    result.append(book[key])
             #remove duplicates
             result = set(result)
         else:
-            print(key)
-            print(op)
-            print(line)
             docs = db.collection('books').where(filter=FieldFilter(key,op,line)).stream()
             if(key == 'title'):
                 for doc in docs:
-                    result.append(doc.to_dict().values())
+                    for vals in doc.to_dict().values(): 
+                        result.append(vals)
             else:
                 for doc in docs:
                     result.append(doc.to_dict()['title'])
@@ -47,5 +47,5 @@ docs = (db.collection('books')
         .stream())
 
 # Set of (remove duplicates)
-for doc in docs:
-    print(doc.to_dict()['title'])
+#for doc in docs:
+#    print(doc.to_dict()['title'])
