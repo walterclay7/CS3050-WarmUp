@@ -125,6 +125,7 @@ def compound_simple():
 
 
 def compound_complex():
+
     # Year <= Author
     if(query.query_retrieve(["published_year", "author"],["<=","=="],[1940, 'J.R.R. Tolkien']) == ['The Hobbit']):
         print('PASSED YEAR <= AUTHOR')
@@ -144,36 +145,64 @@ def compound_complex():
         print('FAILED YEAR <= AUTHOR')
 
     # Year >= Author 
-    # if(query.query_retrieve(["published_year", "author"],["==","=="],[1937, 'J.R.R. Tolkien']) == ['The Hobbit']):
-    #     print('PASSED YEAR, AUTHOR')
-    # else:
-    #     print('FAILED YEAR, AUTHOR')
+    if(query.query_retrieve(["published_year", "author"],[">=","=="],[1940, 'J.R.R. Tolkien']) == ['The Lord of the Rings']):
+        print('PASSED YEAR >= AUTHOR')
+    else:
+        print('FAILED YEAR >= AUTHOR')
 
     # Year >= Title 
+    if(query.query_retrieve(["published_year", "title"],[">=","=="],[1940, 'The Lord of the Rings']) == ['The Lord of the Rings',1954,'J.R.R. Tolkien','Fantasy']):
+        print('PASSED YEAR >= TITLE')
+    else:
+        print('FAILED YEAR >= TITLE')
 
     # Year >= Genre
+    if(query.query_retrieve(["published_year", "genre"],[">=","=="],[1940, 'Fantasy']) == ['The Lord of the Rings']):
+        print('PASSED YEAR >= AUTHOR')
+    else:
+        print('FAILED YEAR >= AUTHOR')
+    
 
     # Author <= 
-    # if(query.query_retrieve(["author", "published_year"],["==","=="],["J.R.R. Tolkien", 1937]) == ['The Hobbit']):
-    #     print('PASSED AUTHOR, YEAR')
-    # else:
-    #     print('FAILED AUTHOR, YEAR')
+    if(query.query_retrieve(['author', 'published_year'],["==","<="],['J.R.R. Tolkien', 1940]) == ['The Hobbit']):
+        print('PASSED AUTHOR <= YEAR')
+    else:
+        print('AUTHOR YEAR <= YEAR')
 
     # Title <=
+    if(query.query_retrieve(["published_year", "title"],["<=","=="],[1940, 'The Hobbit']) == ['The Hobbit',1937,'J.R.R. Tolkien','Fantasy']):
+        print('PASSED TITLE <= YEAR')
+    else:
+        print('FAILED TITLE <= YEAR')
 
     # Genre <=
+    if(query.query_retrieve(['genre', 'published_year'],["==","<="],['Fantasy', 1940]) == ['The Hobbit']):
+        print('PASSED GENRE <= YEAR')
+    else:
+        print('AUTHOR GENRE <= YEAR')
 
-    # Author <=
-    # if(query.query_retrieve(["author", "published_year"],["==","=="],["J.R.R. Tolkien", 1937]) == ['The Hobbit']):
-    #     print('PASSED AUTHOR, YEAR')
-    # else:
-    #     print('FAILED AUTHOR, YEAR')
+    #############
 
-    # Title <=
+    # Author >= 
+    if(query.query_retrieve(['author', 'published_year'],["==",">="],['J.R.R. Tolkien', 1940]) == ['The Lord of the Rings']):
+        print('PASSED AUTHOR >= YEAR')
+    else:
+        print('AUTHOR YEAR >= YEAR')
 
-    # Genre <=
+    # Title >=
+    if(query.query_retrieve(["published_year", "title"],[">=","=="],[1940, 'The Lord of the Rings']) == ['The Lord of the Rings',1954,'J.R.R. Tolkien','Fantasy']):
+        print('PASSED TITLE >= YEAR')
+    else:
+        print('FAILED TITLE >= YEAR')
+
+    # Genre >=
+    if(query.query_retrieve(['genre', 'published_year'],["==",">="],['Fantasy', 1940]) == ['The Lord of the Rings']):
+        print('PASSED GENRE >= YEAR')
+    else:
+        print('AUTHOR GENRE >= YEAR')
 
     # No genre
+    
 
 
 
