@@ -47,9 +47,15 @@ def query_retrieve(keyword, operator, user_ln):
             .where(filter=FieldFilter(line1, op1, key1))
             .where(filter=FieldFilter(line2, op2, key2))
             .stream())
-
-
-
+        
+        if(key == 'title'):
+            for doc in docs:
+                for vals in doc.to_dict().values(): 
+                    result.append(vals)
+        else:
+            for doc in docs:
+                result.append(doc.to_dict()['title'])
+        
     return result
 
 

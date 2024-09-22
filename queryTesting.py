@@ -49,5 +49,26 @@ def all_query_test():
     else:
         print("FAILED ALL PUBLISHED YEARS")
 
+def compound_query_test():
+    # Author first genre seconds
+
+    # Author first year second
+
+    # Author first title second
+
+    # Title first author second
+
+    # Title first genre second
+
+    # Title first genre second
+
+    # 
+
+
+
+
+    pass
+
+
 simple_query_test()
 all_query_test()
