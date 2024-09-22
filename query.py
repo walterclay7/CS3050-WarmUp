@@ -33,19 +33,28 @@ def query_retrieve(keyword, operator, user_ln):
 
     # Compund queries
     else:
-        pass
+        # First query
+        line1 = user_ln[0]
+        op1 = operator[0]
+        key1 = keyword[0]
+
+        # Second query
+        line2 = user_ln[1]
+        op2 = operator[1]
+        key2 = keyword[1]
+
+        docs = (db.collection('books')
+            .where(filter=FieldFilter(line1, op1, key1))
+            .where(filter=FieldFilter(line2, op2, key2))
+            .stream())
+
+
 
     return result
-    
 
 
 
 
-docs = (db.collection('books')
-        .where(filter=FieldFilter('author', '==', 'J.R.R. Tolkien'))
-        .where(filter=FieldFilter('published_year', '<', 1940))
-        .stream())
-
-# Set of (remove duplicates)
-#for doc in docs:
+# # Set of (remove duplicates)
+# for doc in docs:
 #    print(doc.to_dict()['title'])
