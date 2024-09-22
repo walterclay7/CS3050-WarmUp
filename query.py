@@ -49,8 +49,13 @@ def query_retrieve(keyword, operator, user_ln):
             .stream())
         
 
-        for doc in docs:
-            result.append(doc.to_dict()['title'])
+        if(key1 == 'title' or key2 == 'title'):
+            for doc in docs:
+                for vals in doc.to_dict().values(): 
+                    result.append(vals)
+        else:
+            for doc in docs:
+                result.append(doc.to_dict()['title'])
         
     return result
 
