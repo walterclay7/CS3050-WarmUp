@@ -50,10 +50,18 @@ def all_query_test():
         print("FAILED ALL PUBLISHED YEARS")
 
 def compound_query_test():
+
     # Author first genre seconds
+    if(query.query_retrieve(["author", "genre"],["==","=="],["J.R.R. Tolkien", "Fantasy"]) == ['The Hobbit', 'The Lord of the Rings']):
+        print('PASSED AUTHOR, GENRE')
+    else:
+        print('FAILED AUTHOR,GENRE')
 
     # Author first year second
-
+    if(query.query_retrieve(["author", "year"],["==","=="],["J.R.R. Tolkien", "1937"]) == ['The Hobbit', 'The Lord of the Rings']):
+        print('PASSED AUTHOR, GENRE')
+    else:
+        print('FAILED AUTHOR,GENRE')
     # Author first title second
 
     # Title first author second
@@ -62,13 +70,20 @@ def compound_query_test():
 
     # Title first genre second
 
-    # 
+    # Genre first author second
 
+    # Genre first year second
 
+    # Genre first title second
 
+    # Year first author second
 
-    pass
+    # Year first genre second
+
+    # Year first title second
+
 
 
 simple_query_test()
 all_query_test()
+compound_query_test()
