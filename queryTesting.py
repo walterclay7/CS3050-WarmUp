@@ -199,15 +199,25 @@ def compound_complex():
     if(query.query_retrieve(['genre', 'published_year'],["==",">="],['Fantasy', 1940]) == ['The Lord of the Rings']):
         print('PASSED GENRE >= YEAR')
     else:
-        print('AUTHOR GENRE >= YEAR')
+        print('FAILED GENRE >= YEAR')
+
+    # Genre >
+    if(query.query_retrieve(['genre', 'published_year'],["==",">"],['Fantasy', 1937]) == ['The Lord of the Rings']):
+        print('PASSED GENRE > YEAR')
+    else:
+        print('FAILED GENRE > YEAR')
+
+    # Genre !=
+    if(query.query_retrieve(['genre', 'published_year'],["==","!="],['Fantasy', 1937]) == ['The Lord of the Rings']):
+        print('PASSED GENRE != YEAR')
+    else:
+        print('FAILED GENRE != YEAR')
 
     # No genre
-    
-
-
-
-    """Need to test year with greater than and less than also if the genre isnt present"""
-
+    if(query.query_retrieve(['genre', 'published_year'],["==","=="],['Fantasy', 1949]) == []):
+        print('PASSED NO GENRE')
+    else:
+        print('FAILED NO GENRE')
 
 
 simple_query_test()
