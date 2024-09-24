@@ -49,30 +49,49 @@ def printHelp():
     print('quit: exit the program')
     return 0
 
-def validate_query(input_list):
-    # Define the valid keywords
-    valid_keywords = {
-        "Title": "Valid keyword: Title",
-        "Author": "Valid keyword: Author",
-        "Genre": "Valid keyword: Genre",
-        "Published": "Valid keyword: Published",
-        "All": "Valid keyword: All",
-        "Help": "Valid keyword: Help",
-        "Quit": "Valid keyword: Quit"
-    }
 
-    # Check if input is a list and has at least one element
-    if not isinstance(input_list, list) or len(input_list) == 0:
-        return False, "Input is not a valid list or is empty."
+def validate_query(input_list):
+    if not input_list or not isinstance(input_list, list):
+        return False, "Invalid input."
+
+    type = ""
+    compound = False
     
-    # Get the first element from the list
-    first_word = input_list[0]
-    result = valid_keywords.get(first_word, "Invalid keyword.")
+    # Check for compound query
+    if "AND" in [word.upper() for word in input_list]:
+        compound = True
+
+    first_word = input_list[0].upper()
+
+    if first_word == "TITLE" or first_word == "AUTHOR" or first_word == "GENRE":
+        if len(input_list) >= 2 and input_list[1].upper() == "IS":
+            type = first_word.capitalize()
+        else:
+            return False, "Invalid query structure for title/author/genre."
     
-    if result == "Invalid keyword.":
-        return False, result
+    elif first_word == "PUBLISHED":
+        if len(input_list) >= 3 and input_list[1].upper() in ["IN", "BEFORE", "AFTER"]:
+            type = "Year"
+        else:
+            return False, "Invalid query structure for published date."
     
-    return True, result
+    elif first_word == "ALL":
+        if len(input_list) >= 2 and input_list[1].upper() in ["TITLES", "AUTHORS", "GENRES"]:
+            type = f"All_{input_list[1].capitalize()}"
+        else:
+            return False, "Invalid 'all' query."
+
+    elif first_word == "HELP":
+        type = "Help"
+
+    elif first_word == "QUIT":
+        type = "Quit"
+    
+    else:
+        return False, "Invalid keyword."
+
+    return True, f"Valid {type} query{' with compound' if compound else ''}."
+
 
 def main():
 
