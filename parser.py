@@ -197,7 +197,6 @@ def dataHandler(userIn, type):
     result = []
 
     type[0] = type[0].upper()
-    type[1] = type[1].upper()
 
     # Ensure the parameters are the right length
     if len(userIn) > 2 or len(userIn) < 1 or len(userIn) != len(type):
@@ -206,6 +205,7 @@ def dataHandler(userIn, type):
     compound = False
     if len(userIn) == 2:
         compound = True
+        type[1] = type[1].upper()
 
     # /// Now we ask for the data \\\
     
