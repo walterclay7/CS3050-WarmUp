@@ -266,13 +266,20 @@ def dataHandler(userIn, type):
 # type is not case sensitive
 # called by validate_single_queries
 # returns 0 if everything went well, 1 if something went wrong.
+# dataHandler will get the data and print it formatted
+# userIn is an array containing 1 or 2 strings to match the query
+# type is an array containing 1 or 2 strings that tell us what data to get and how to print it
+# valid elements of type include "TITLE, AUTHOR, GENRE, AFTER, BEFORE, IN, HELP, QUIT"
+# type is not case sensitive
+# called by validate_single_queries
+# returns 0 if everything went well, 1 if something went wrong.
 def dataHandler(userIn, type):
     result = []
 
     type = type.upper()
 
     # Ensure the parameters are the right length
-    if len(userIn) > 2 | len(userIn) < 1 | len(userIn) != len(type):
+    if len(userIn) > 2 or len(userIn) < 1 or len(userIn) != len(type):
         return 1
     # Check if compound or not
     compound = False
@@ -281,10 +288,10 @@ def dataHandler(userIn, type):
 
     # /// Now we ask for the data \\\
     
-    if type == "IN" | "BEFORE" | "AFTER":
-        if type == "BEFORE":
+    if type[0] == "IN" or "BEFORE" or "AFTER":
+        if type[0] == "BEFORE":
             operator = "<="
-        elif type == "AFTER":
+        elif type[0] == "AFTER":
             operator = ">="
         else:
             operator = "=="
@@ -295,27 +302,45 @@ def dataHandler(userIn, type):
     # /// Print the output for the user, cause they need that stuff \\\
 
     if userIn == "ALL":
-        if type == "TITLE":
+        if type[0] == "TITLE":
             print("All book titles:")
-        elif type == "AUTHOR":
+        elif type[0] == "AUTHOR":
             print("All authors on record:")
-        elif type == "GENRE":
+        elif type[0] == "GENRE":
             print("All genres on record:")
         printList(result)
         return 0
 
-    if type == "IN":
-        print("Books published in " + userIn)
+    if type[0] == "IN":
+        print("Books published in " + userIn[0])
         printList(result)
         return 0
-    elif type == "BEFORE":
-        print("Books published before " + userIn)
+    elif type[0] == "BEFORE":
+        print("Books published before " + userIn[0])
         printList(result)
         return 0
     elif type == "AFTER":
-        print("Books published after " + userIn)
+        print("Books published after " + userIn[0])
         printList(result)
         return 0
+    
+    
+    if result[1].isnumeric(): # Checking whether the list is the info about a single book
+        print("Title: " + result[0])
+        print("Published: " + result[1])
+        print("Author: " + result[2])
+        if len(result) == 4:
+            print("Genre: " + result[3])
+        return 0
+
+    if type == "TITLE":
+        print("All books where title includes: " + userIn[0])
+    elif type == "AUTHOR":
+        print("All books where author's name includes: " + userIn[0])
+    elif type == "GENRE":
+        print("All books where genre includes: " + userIn[0])
+    printList(result)
+    return 0
     
     
     if result[1].isnumeric(): # Checking whether the list is the info about a single book
