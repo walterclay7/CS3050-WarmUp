@@ -288,20 +288,3 @@ def main():
     print("Welcome! To see a list of commands, type \"Help\"")
     while(True):
         validate_query(tokenize(input()))
-        
-
-
-    
-# prints all items in a list, one item per line, with a small indent.
-# returns 0.
-def printList(list):
-    for i in list:
-        print("   " + i)
-    return 0
-
-def main():
-    print("Welcome! To see a list of commands, type \"Help\"")
-    while(True):
-        validate_query(tokenize(input()))
-
-main()
