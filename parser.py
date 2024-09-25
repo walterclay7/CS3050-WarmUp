@@ -134,7 +134,7 @@ def validate_query(input_list):
 def dataHandler(userIn, type):
     result = []
 
-    type = type.upper()
+    type[0] = type[0].upper()
 
     # Ensure the parameters are the right length
     if len(userIn) > 2 or len(userIn) < 1 or len(userIn) != len(type):
