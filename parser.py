@@ -196,7 +196,7 @@ def dataHandler(userIn, type):
                 operator1 = ">="
             else:
                 operator1 = "=="
-            result = query.query_retrieve(["published"], [operator1], userIn)
+            result = query.query_retrieve(["published_year"], [operator1], [int(userIn[0])])
         else:
             result = query.query_retrieve([type[0].lower()], ["=="], userIn)
 
