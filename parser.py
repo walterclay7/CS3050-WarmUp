@@ -1,3 +1,5 @@
+import query
+
 # userIn is the string to be tokenized
 # returns a list of strings, which are the tokens
 # tokens are separated by spaces, but not spaces that are inside double quotes
@@ -49,7 +51,40 @@ def printHelp():
     print('quit: exit the program')
     return 0
 
+# Helper function to validate single queries
+def validate_single_query(query):
+    if len(query) == 0:
+        return False, "Empty query."
+    
+    first_word = query[0].upper()
 
+    if first_word == "TITLE" or first_word == "AUTHOR" or first_word == "GENRE":
+        if len(query) >= 3 and query[1].upper() == "IS":
+            return True, first_word.capitalize()
+        else:
+            return False, f"Invalid query structure for {first_word.lower()}."
+    
+    elif first_word == "PUBLISHED":
+        if len(query) >= 3 and query[1].upper() in ["IN", "BEFORE", "AFTER"]:
+            return True, f"Published {query[1].capitalize()}"
+        else:
+            return False, "Invalid query structure for published date."
+    
+    elif first_word == "ALL":
+        if len(query) >= 2 and query[1].upper() in ["TITLES", "AUTHORS", "GENRES"]:
+            return True, f"All_{query[1].capitalize()}"
+        else:
+            return False, "Invalid 'all' query."
+    
+    elif first_word == "HELP":
+        printHelp()
+        return True, "Help"
+    
+    elif first_word == "QUIT":
+        return True, "Quit"
+    
+    else:
+        return False, "Invalid keyword."
 
 def validate_query(input_list):
     if not input_list or not isinstance(input_list, list):
@@ -71,60 +106,137 @@ def validate_query(input_list):
     else:
         first_query = input_list
 
-    # Helper function to validate single queries
-    def validate_single_query(query):
-        if len(query) == 0:
-            return False, "Empty query."
-
-        first_word = query[0].upper()
-
-        if first_word == "TITLE" or first_word == "AUTHOR" or first_word == "GENRE":
-            if len(query) >= 2 and query[1].upper() == "IS":
-                return True, first_word.capitalize()
-            else:
-                return False, f"Invalid query structure for {first_word.lower()}."
-        
-        elif first_word == "PUBLISHED":
-            if len(query) >= 3 and query[1].upper() in ["IN", "BEFORE", "AFTER"]:
-                return True, f"Published {query[1].capitalize()}"
-            else:
-                return False, "Invalid query structure for published date."
-        
-        elif first_word == "ALL":
-            if len(query) >= 2 and query[1].upper() in ["TITLES", "AUTHORS", "GENRES"]:
-                return True, f"All_{query[1].capitalize()}"
-            else:
-                return False, "Invalid 'all' query."
-        
-        elif first_word == "HELP":
-            return True, "Help"
-        
-        elif first_word == "QUIT":
-            return True, "Quit"
-        
-        else:
-            return False, "Invalid keyword."
-
     # Validate the first part of the query
     valid_first, result_first = validate_single_query(first_query)
+
+    if result_first == "QUIT":
+        quit()
+    if result_first == "HELP":
+        printHelp()
     
     # If compound query, validate the second part as well
     if compound:
         valid_second, result_second = validate_single_query(second_query)
         if valid_first and valid_second:
+            types = []
+            # Do first one
+            if first_query[0].upper() == "TITLE" | "AUTHOR" | "GENRE":
+                types[0] = first_query[0]
+            elif first_query[0].upper() == "PUBLISHED":
+                types[0] = first_query[1]
+            # Do second one
+            if second_query[0].upper() == "TITLE" | "AUTHOR" | "GENRE":
+                types[1] = second_query[0]
+            elif second_query[0].upper() == "PUBLISHED":
+                types[1] = second_query[1]
+            dataHandler([first_query[2], second_query[2]], types)
+
             return True, f"Valid compound query: [{result_first}] AND [{result_second}]"
+        
         elif not valid_first:
             return False, result_first
         else:
             return False, result_second
     else:
+        # Not compund, so just do 1
+        if first_query[0].upper() == "TITLE" | "AUTHOR" | "GENRE":
+            dataHandler([first_query[2]], [first_query[0]])
+        elif first_query[0].upper() == "PUBLISHED":
+            dataHandler([first_query[2]], [first_query[1]])
+        
         return valid_first, result_first
 
 
-def main():
 
-    print(tokenize('The quick brown fox "Jumped over" the dazy log'))
+# dataHandler will get the data and print it formatted
+# userIn is an array containing 1 or 2 strings to match the query
+# type is an array containing 1 or 2 strings that tell us what data to get and how to print it
+# valid elements of type include "TITLE, AUTHOR, GENRE, AFTER, BEFORE, IN, "
+# type is not case sensitive
+# called by validate_single_queries
+# returns 0 if everything went well, 1 if something went wrong.
+def dataHandler(userIn, type):
+    result = []
+
+    type = type.upper()
+
+    # Ensure the parameters are the right length
+    if len(userIn) > 2 | len(userIn) < 1 | len(userIn) != len(type):
+        return 1
+    # Check if compound or not
+    compound = False
+    if len(userIn == 2):
+        compound = True
+
+    # /// Now we ask for the data \\\
+    
+    if type == "IN" | "BEFORE" | "AFTER":
+        if type == "BEFORE":
+            operator = "<="
+        elif type == "AFTER":
+            operator = ">="
+        else:
+            operator = "=="
+        result = query.query_retrieve("published", operator, userIn)
+    else:
+        result = query.query_retrieve(type.lower(), "==", userIn)
+
+    # /// Print the output for the user, cause they need that stuff \\\
+
+    if userIn == "ALL":
+        if type == "TITLE":
+            print("All book titles:")
+        elif type == "AUTHOR":
+            print("All authors on record:")
+        elif type == "GENRE":
+            print("All genres on record:")
+        printList(result)
+        return 0
+
+    if type == "IN":
+        print("Books published in " + userIn)
+        printList(result)
+        return 0
+    elif type == "BEFORE":
+        print("Books published before " + userIn)
+        printList(result)
+        return 0
+    elif type == "AFTER":
+        print("Books published after " + userIn)
+        printList(result)
+        return 0
+    
+    
+    if result[1].isnumeric(): # Checking whether the list is the info about a single book
+        print("Title: " + result[0])
+        print("Published: " + result[1])
+        print("Author: " + result[2])
+        if len(result) == 4:
+            print("Genre: " + result[3])
+        return 0
+
+    if type == "TITLE":
+        print("All books where title includes: " + userIn)
+    elif type == "AUTHOR":
+        print("All books where author's name includes: " + userIn)
+    elif type == "GENRE":
+        print("All books where genre includes: " + userIn)
+    printList(result)
     return 0
+        
+
+
+    
+# prints all items in a list, one item per line, with a small indent.
+# returns 0.
+def printList(list):
+    for i in list:
+        print("   " + i)
+    return 0
+
+def main():
+    userIn = 'the quick "brown fox jumped" over the lazy "dog"'
+    tokenize(userIn)
 
 main()
 
