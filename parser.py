@@ -271,6 +271,18 @@ def printList(list):
     return 0
 
 def main():
-    print("Welcome! To see a list of commands, type \"Help\"")
-    while(True):
-        validate_query(tokenize(input()))
+    run = True
+    while(run):
+        print("[]? ", end='')
+        userIn = input()
+        token = tokenize(userIn)
+        valid, result = validate_query(token)
+
+        print(result)
+        if "HELP" in result:
+            printHelp()
+        if "QUIT" in result:
+            return 0
+        if valid:
+            dataHandler(userIn, result)
+    return 0
