@@ -160,8 +160,9 @@ def dataHandler(userIn, type):
     # /// Now we ask for the data \\\
     
     if compound:
-        if type[0] == "IN" or "BEFORE" or "AFTER":
-            keyword1 = "published"
+        if type[0] == "IN" or type[0] == "BEFORE" or type[0] == "AFTER":
+            keyword1 = "published_year"
+            userIn[0] = int(userIn[0])
             if type[0] == "BEFORE":
                 operator1 = "<="
             elif type[0] == "AFTER":
@@ -169,11 +170,12 @@ def dataHandler(userIn, type):
             else:
                 operator1 = "=="
         else: 
-            keyword1 = type[0].lower
+            keyword1 = type[0].lower()
             operator1 = "=="
 
-        if type[1] == "IN" or "BEFORE" or "AFTER":
-            keyword2 = "published"
+        if type[1] == "IN" or type[1] == "BEFORE" or type[1] == "AFTER":
+            keyword2 = "published_year"
+            userIn[1] = int(userIn[1])
             if type[1] == "BEFORE":
                 operator2 = "<="
             elif type[1] == "AFTER":
@@ -181,13 +183,13 @@ def dataHandler(userIn, type):
             else:
                 operator2 = "=="
         else: 
-            keyword2 = type[1].lower
+            keyword2 = type[1].lower()
             operator2 = "=="
 
         result = query.query_retrieve([keyword1, keyword2], [operator1, operator2], userIn)
 
     else: # Not compound
-        if type[0] == "IN" or "BEFORE" or "AFTER":
+        if type[0] == "IN" or type[0] == "BEFORE" or type[0] == "AFTER":
             if type[0] == "BEFORE":
                 operator1 = "<="
             elif type[0] == "AFTER":
@@ -196,16 +198,20 @@ def dataHandler(userIn, type):
                 operator1 = "=="
             result = query.query_retrieve(["published"], [operator1], userIn)
         else:
-            result = query.query_retrieve([type.lower()], ["=="], userIn)
+            result = query.query_retrieve([type[0].lower()], ["=="], userIn)
 
     # /// Print the output for the user, cause they need that stuff \\\
 
     isSingleBook = False
-    if isinstance(result[1], int):
-        isSingleBook = True
-    if isinstance(result[1], str):
-        if result[1].isnumeric():
+    for val in result:
+        if isinstance(val, int):
             isSingleBook = True
+
+    # if isinstance(result[0], int):
+    #     isSingleBook = True
+    # if isinstance(result[0], str):
+    #     if result[0].isnumeric():
+    #         isSingleBook = True
 
     if compound:
         print("Here are the results:")
@@ -279,13 +285,15 @@ def main():
         token = tokenize(userIn)
         valid, result = validate_query(token)
 
-        print(result)
         if "HELP" in result:
             printHelp()
         if "QUIT" in result:
             return 0
         if valid:
-            dataHandler(userIn, result)
+            if len(token) > 3: # Compound query
+                dataHandler([token[2], token[-1]], result)
+            else:
+                dataHandler([token[-1]], result)
     return 0
 
 main()
