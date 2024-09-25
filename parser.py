@@ -49,6 +49,8 @@ def printHelp():
     print('all titles/authors/genres: returns a list of all titles, authors, or'
           ' genres on file')
     print('quit: exit the program')
+    print('You can also combine two queries by putting \"and\" between them. This will return only'
+          ' items that both queries would return.')
     return 0
 
 # Helper function to validate single queries
