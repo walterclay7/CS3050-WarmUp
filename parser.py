@@ -286,3 +286,5 @@ def main():
         if valid:
             dataHandler(userIn, result)
     return 0
+
+main()
