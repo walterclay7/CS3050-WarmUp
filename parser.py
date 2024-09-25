@@ -1,7 +1,5 @@
 import query
 
-import query
-
 # userIn is the string to be tokenized
 # returns a list of strings, which are the tokens
 # tokens are separated by spaces, but not spaces that are inside double quotes
