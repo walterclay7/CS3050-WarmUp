@@ -271,6 +271,7 @@ def printList(list):
     return 0
 
 def main():
+    print("Welcome. type \"Help\" for help")
     run = True
     while(run):
         print("[]? ", end='')
