@@ -247,6 +247,62 @@ def dataHandler(userIn, type):
             result = query.query_retrieve(["published"], [operator1], userIn)
         else:
             result = query.query_retrieve([type.lower()], ["=="], userIn)
+
+    # /// Print the output for the user, cause they need that stuff \\\
+
+    if compound:
+        print("Here are the results:")
+        if result[1].isnumeric(): # Checking whether the list is the info about a single book
+            print("Title: " + result[0])
+            print("Published: " + result[1])
+            print("Author: " + result[2])
+            if len(result) == 4:
+                print("Genre: " + result[3])
+            return 0
+        else:
+            printList(result)
+            return 0
+    
+    if userIn == "ALL":
+        if type[0] == "TITLE":
+            print("All book titles:")
+        elif type[0] == "AUTHOR":
+            print("All authors on record:")
+        elif type[0] == "GENRE":
+            print("All genres on record:")
+        printList(result)
+        return 0
+
+    if type[0] == "IN":
+        print("Books published in " + userIn)
+        printList(result)
+        return 0
+    elif type[0] == "BEFORE":
+        print("Books published before " + userIn)
+        printList(result)
+        return 0
+    elif type[0] == "AFTER":
+        print("Books published after " + userIn)
+        printList(result)
+        return 0
+    
+    
+    if result[1].isnumeric(): # Checking whether the list is the info about a single book
+        print("Title: " + result[0])
+        print("Published: " + result[1])
+        print("Author: " + result[2])
+        if len(result) == 4:
+            print("Genre: " + result[3])
+        return 0
+
+    if type[0] == "TITLE":
+        print("All books where title includes: " + userIn)
+    elif type[0] == "AUTHOR":
+        print("All books where author's name includes: " + userIn)
+    elif type[0] == "GENRE":
+        print("All books where genre includes: " + userIn)
+    printList(result)
+    return 0
         
 
     
