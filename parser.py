@@ -53,41 +53,6 @@ def printHelp():
           ' items that both queries would return.')
     return 0
 
-# Helper function to validate single queries
-def validate_single_query(query):
-    if len(query) == 0:
-        return False, "Empty query."
-    
-    first_word = query[0].upper()
-
-    if first_word == "TITLE" or first_word == "AUTHOR" or first_word == "GENRE":
-        if len(query) >= 3 and query[1].upper() == "IS":
-            return True, first_word.capitalize()
-        else:
-            return False, f"Invalid query structure for {first_word.lower()}."
-    
-    elif first_word == "PUBLISHED":
-        if len(query) >= 3 and query[1].upper() in ["IN", "BEFORE", "AFTER"]:
-            return True, f"Published {query[1].capitalize()}"
-        else:
-            return False, "Invalid query structure for published date."
-    
-    elif first_word == "ALL":
-        if len(query) >= 2 and query[1].upper() in ["TITLES", "AUTHORS", "GENRES"]:
-            return True, f"All_{query[1].capitalize()}"
-        else:
-            return False, "Invalid 'all' query."
-    
-    elif first_word == "HELP":
-        printHelp()
-        return True, "Help"
-    
-    elif first_word == "QUIT":
-        return True, "Quit"
-    
-    else:
-        return False, "Invalid keyword."
-
 def validate_query(input_list):
     if not input_list or not isinstance(input_list, list):
         return False, "Invalid input."
@@ -108,44 +73,53 @@ def validate_query(input_list):
     else:
         first_query = input_list
 
+    # Helper function to validate single queries
+    def validate_single_query(query):
+        if len(query) == 0:
+            return False, "Empty query."
+
+        first_word = query[0].upper()
+
+        if first_word == "TITLE" or first_word == "AUTHOR" or first_word == "GENRE":
+            if len(query) >= 2 and query[1].upper() == "IS":
+                return True, first_word.capitalize()
+            else:
+                return False, f"Invalid query structure for {first_word.lower()}."
+        
+        elif first_word == "PUBLISHED":
+            if len(query) >= 3 and query[1].upper() in ["IN", "BEFORE", "AFTER"]:
+                return True, f"Published {query[1].capitalize()}"
+            else:
+                return False, "Invalid query structure for published date."
+        
+        elif first_word == "ALL":
+            if len(query) >= 2 and query[1].upper() in ["TITLES", "AUTHORS", "GENRES"]:
+                return True, f"All_{query[1].capitalize()}"
+            else:
+                return False, "Invalid 'all' query."
+        
+        elif first_word == "HELP":
+            return True, "Help"
+        
+        elif first_word == "QUIT":
+            return True, "Quit"
+        
+        else:
+            return False, "Invalid keyword."
+
     # Validate the first part of the query
     valid_first, result_first = validate_single_query(first_query)
-
-    if result_first == "QUIT":
-        quit()
-    if result_first == "HELP":
-        printHelp()
     
     # If compound query, validate the second part as well
     if compound:
         valid_second, result_second = validate_single_query(second_query)
         if valid_first and valid_second:
-            types = []
-            # Do first one
-            if first_query[0].upper() == "TITLE" or "AUTHOR" or "GENRE":
-                types[0] = first_query[0]
-            elif first_query[0].upper() == "PUBLISHED":
-                types[0] = first_query[1]
-            # Do second one
-            if second_query[0].upper() == "TITLE" or "AUTHOR" or "GENRE":
-                types[1] = second_query[0]
-            elif second_query[0].upper() == "PUBLISHED":
-                types[1] = second_query[1]
-            dataHandler([first_query[2], second_query[2]], types)
-
             return True, f"Valid compound query: [{result_first}] AND [{result_second}]"
-        
         elif not valid_first:
             return False, result_first
         else:
             return False, result_second
     else:
-        # Not compund, so just do 1
-        if first_query[0].upper() == "TITLE" or "AUTHOR" or "GENRE":
-            dataHandler([first_query[2]], [first_query[0]])
-        elif first_query[0].upper() == "PUBLISHED":
-            dataHandler([first_query[2]], [first_query[1]])
-        
         return valid_first, result_first
 
 
