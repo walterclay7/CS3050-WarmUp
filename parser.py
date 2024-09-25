@@ -250,9 +250,16 @@ def dataHandler(userIn, type):
 
     # /// Print the output for the user, cause they need that stuff \\\
 
+    isSingleBook = False
+    if isinstance(result[1], int):
+        isSingleBook = True
+    if isinstance(result[1], str):
+        if result[1].isnumeric():
+            isSingleBook = True
+
     if compound:
         print("Here are the results:")
-        if result[1].isnumeric(): # Checking whether the list is the info about a single book
+        if isSingleBook: # Checking whether the list is the info about a single book
             print("Title: " + result[0])
             print("Published: " + result[1])
             print("Author: " + result[2])
@@ -287,9 +294,9 @@ def dataHandler(userIn, type):
         return 0
     
     
-    if result[1].isnumeric(): # Checking whether the list is the info about a single book
+    if isSingleBook: # Checking whether the list is the info about a single book
         print("Title: " + result[0])
-        print("Published: " + result[1])
+        print("Published: " + str(result[1]))
         print("Author: " + result[2])
         if len(result) == 4:
             print("Genre: " + result[3])
