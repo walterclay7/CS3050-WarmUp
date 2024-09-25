@@ -294,6 +294,9 @@ def main():
                 dataHandler([token[2], token[-1]], result)
             else:
                 dataHandler([token[-1]], result)
+        else:
+            print(result)
+        
     return 0
 
 main()
