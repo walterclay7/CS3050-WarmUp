@@ -274,15 +274,15 @@ def dataHandler(userIn, type):
         return 0
 
     if type[0] == "IN":
-        print("Books published in " + userIn)
+        print("Books published in " + userIn[0] + ":")
         printList(result)
         return 0
     elif type[0] == "BEFORE":
-        print("Books published before " + userIn)
+        print("Books published before " + userIn[0] + ":")
         printList(result)
         return 0
     elif type[0] == "AFTER":
-        print("Books published after " + userIn)
+        print("Books published after " + userIn[0] + ":")
         printList(result)
         return 0
     
@@ -296,11 +296,11 @@ def dataHandler(userIn, type):
         return 0
 
     if type[0] == "TITLE":
-        print("All books where title includes: " + userIn)
+        print("All books where title includes: " + userIn[0] + ":")
     elif type[0] == "AUTHOR":
-        print("All books where author's name includes: " + userIn)
+        print("All books where author's name includes: " + userIn[0] + ":")
     elif type[0] == "GENRE":
-        print("All books where genre includes: " + userIn)
+        print("All books where genre includes: " + userIn[0] + ":")
     printList(result)
     return 0
         
