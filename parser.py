@@ -127,7 +127,7 @@ def validate_query(input_list):
 # dataHandler will get the data and print it formatted
 # userIn is an array containing 1 or 2 strings to match the query
 # type is an array containing 1 or 2 strings that tell us what data to get and how to print it
-# valid elements of type include "TITLE, AUTHOR, GENRE, AFTER, BEFORE, IN, "
+# valid elements of type include "TITLE, AUTHOR, GENRE, AFTER, BEFORE, IN, HELP, QUIT"
 # type is not case sensitive
 # called by validate_single_queries
 # returns 0 if everything went well, 1 if something went wrong.
@@ -181,6 +181,24 @@ def dataHandler(userIn, type):
         print("Books published after " + userIn)
         printList(result)
         return 0
+    
+    
+    if result[1].isnumeric(): # Checking whether the list is the info about a single book
+        print("Title: " + result[0])
+        print("Published: " + result[1])
+        print("Author: " + result[2])
+        if len(result) == 4:
+            print("Genre: " + result[3])
+        return 0
+
+    if type == "TITLE":
+        print("All books where title includes: " + userIn)
+    elif type == "AUTHOR":
+        print("All books where author's name includes: " + userIn)
+    elif type == "GENRE":
+        print("All books where genre includes: " + userIn)
+    printList(result)
+    return 0
     
     
     if result[1].isnumeric(): # Checking whether the list is the info about a single book
