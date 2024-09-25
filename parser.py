@@ -235,8 +235,9 @@ def printList(list):
     return 0
 
 def main():
-    userIn = 'the quick "brown fox jumped" over the lazy "dog"'
-    tokenize(userIn)
+    print("Welcome! To see a list of commands, type \"Help\"")
+    while(True):
+        validate_query(tokenize(input()))
 
 main()
 
