@@ -13,7 +13,7 @@ def tokenize(userIn):
     if len(userIn) == 0:
         return output
     #Track whether the string starts with a "
-    if userIn[1] == '"':
+    if userIn[0] == '"':
         startsWithDoubleQuote = True
     
     #Separate by "
