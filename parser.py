@@ -164,9 +164,9 @@ def dataHandler(userIn, type):
             keyword1 = "published_year"
             userIn[0] = int(userIn[0])
             if type[0] == "BEFORE":
-                operator1 = "<="
+                operator1 = "<"
             elif type[0] == "AFTER":
-                operator1 = ">="
+                operator1 = ">"
             else:
                 operator1 = "=="
         else: 
@@ -177,9 +177,9 @@ def dataHandler(userIn, type):
             keyword2 = "published_year"
             userIn[1] = int(userIn[1])
             if type[1] == "BEFORE":
-                operator2 = "<="
+                operator2 = "<"
             elif type[1] == "AFTER":
-                operator2 = ">="
+                operator2 = ">"
             else:
                 operator2 = "=="
         else: 
@@ -191,9 +191,9 @@ def dataHandler(userIn, type):
     else: # Not compound
         if type[0] == "IN" or type[0] == "BEFORE" or type[0] == "AFTER":
             if type[0] == "BEFORE":
-                operator1 = "<="
+                operator1 = "<"
             elif type[0] == "AFTER":
-                operator1 = ">="
+                operator1 = ">"
             else:
                 operator1 = "=="
             result = query.query_retrieve(["published_year"], [operator1], [int(userIn[0])])
