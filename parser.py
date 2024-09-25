@@ -209,9 +209,9 @@ def dataHandler(userIn, type):
     # /// Now we ask for the data \\\
     
     if type == "IN" or "BEFORE" or "AFTER":
-        if type == "BEFORE":
+        if type[0] == "BEFORE":
             operator = "<="
-        elif type == "AFTER":
+        elif type[0] == "AFTER":
             operator = ">="
         else:
             operator = "=="
@@ -235,24 +235,24 @@ def dataHandler(userIn, type):
             return 0
     
     if userIn == "ALL":
-        if type == "TITLE":
+        if type[0] == "TITLE":
             print("All book titles:")
-        elif type == "AUTHOR":
+        elif type[0] == "AUTHOR":
             print("All authors on record:")
-        elif type == "GENRE":
+        elif type[0] == "GENRE":
             print("All genres on record:")
         printList(result)
         return 0
 
-    if type == "IN":
+    if type[0] == "IN":
         print("Books published in " + userIn)
         printList(result)
         return 0
-    elif type == "BEFORE":
+    elif type[0] == "BEFORE":
         print("Books published before " + userIn)
         printList(result)
         return 0
-    elif type == "AFTER":
+    elif type[0] == "AFTER":
         print("Books published after " + userIn)
         printList(result)
         return 0
@@ -266,11 +266,11 @@ def dataHandler(userIn, type):
             print("Genre: " + result[3])
         return 0
 
-    if type == "TITLE":
+    if type[0] == "TITLE":
         print("All books where title includes: " + userIn)
-    elif type == "AUTHOR":
+    elif type[0] == "AUTHOR":
         print("All books where author's name includes: " + userIn)
-    elif type == "GENRE":
+    elif type[0] == "GENRE":
         print("All books where genre includes: " + userIn)
     printList(result)
     return 0
