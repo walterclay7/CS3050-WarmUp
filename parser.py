@@ -197,6 +197,7 @@ def dataHandler(userIn, type):
     result = []
 
     type[0] = type[0].upper()
+    type[1] = type[1].upper()
 
     # Ensure the parameters are the right length
     if len(userIn) > 2 or len(userIn) < 1 or len(userIn) != len(type):
@@ -208,72 +209,44 @@ def dataHandler(userIn, type):
 
     # /// Now we ask for the data \\\
     
-    if type == "IN" or "BEFORE" or "AFTER":
-        if type[0] == "BEFORE":
-            operator = "<="
-        elif type[0] == "AFTER":
-            operator = ">="
-        else:
-            operator = "=="
-        result = query.query_retrieve("published", operator, userIn)
-    else:
-        result = query.query_retrieve(type.lower(), "==", userIn)
-
-    # /// Print the output for the user, cause they need that stuff \\\
-
     if compound:
-        print("Here are the results:")
-        if result[1].isnumeric(): # Checking whether the list is the info about a single book
-            print("Title: " + result[0])
-            print("Published: " + result[1])
-            print("Author: " + result[2])
-            if len(result) == 4:
-                print("Genre: " + result[3])
-            return 0
+        if type[0] == "IN" or "BEFORE" or "AFTER":
+            keyword1 = "published"
+            if type[0] == "BEFORE":
+                operator1 = "<="
+            elif type[0] == "AFTER":
+                operator1 = ">="
+            else:
+                operator1 = "=="
+        else: 
+            keyword1 = type[0].lower
+            operator1 = "=="
+
+        if type[1] == "IN" or "BEFORE" or "AFTER":
+            keyword2 = "published"
+            if type[1] == "BEFORE":
+                operator2 = "<="
+            elif type[1] == "AFTER":
+                operator2 = ">="
+            else:
+                operator2 = "=="
+        else: 
+            keyword2 = type[1].lower
+            operator2 = "=="
+
+        result = query.query_retrieve([keyword1, keyword2], [operator1, operator2], userIn)
+
+    else: # Not compound
+        if type[0] == "IN" or "BEFORE" or "AFTER":
+            if type[0] == "BEFORE":
+                operator1 = "<="
+            elif type[0] == "AFTER":
+                operator1 = ">="
+            else:
+                operator1 = "=="
+            result = query.query_retrieve(["published"], [operator1], userIn)
         else:
-            printList(result)
-            return 0
-    
-    if userIn == "ALL":
-        if type[0] == "TITLE":
-            print("All book titles:")
-        elif type[0] == "AUTHOR":
-            print("All authors on record:")
-        elif type[0] == "GENRE":
-            print("All genres on record:")
-        printList(result)
-        return 0
-
-    if type[0] == "IN":
-        print("Books published in " + userIn)
-        printList(result)
-        return 0
-    elif type[0] == "BEFORE":
-        print("Books published before " + userIn)
-        printList(result)
-        return 0
-    elif type[0] == "AFTER":
-        print("Books published after " + userIn)
-        printList(result)
-        return 0
-    
-    
-    if result[1].isnumeric(): # Checking whether the list is the info about a single book
-        print("Title: " + result[0])
-        print("Published: " + result[1])
-        print("Author: " + result[2])
-        if len(result) == 4:
-            print("Genre: " + result[3])
-        return 0
-
-    if type[0] == "TITLE":
-        print("All books where title includes: " + userIn)
-    elif type[0] == "AUTHOR":
-        print("All books where author's name includes: " + userIn)
-    elif type[0] == "GENRE":
-        print("All books where genre includes: " + userIn)
-    printList(result)
-    return 0
+            result = query.query_retrieve([type.lower()], ["=="], userIn)
         
 
     
