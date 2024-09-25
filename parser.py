@@ -141,7 +141,7 @@ def dataHandler(userIn, type):
         return 1
     # Check if compound or not
     compound = False
-    if len(userIn == 2):
+    if len(userIn) == 2:
         compound = True
 
     # /// Now we ask for the data \\\
