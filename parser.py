@@ -120,12 +120,12 @@ def validate_query(input_list):
         if valid_first and valid_second:
             types = []
             # Do first one
-            if first_query[0].upper() == "TITLE" | "AUTHOR" | "GENRE":
+            if first_query[0].upper() == "TITLE" or "AUTHOR" or "GENRE":
                 types[0] = first_query[0]
             elif first_query[0].upper() == "PUBLISHED":
                 types[0] = first_query[1]
             # Do second one
-            if second_query[0].upper() == "TITLE" | "AUTHOR" | "GENRE":
+            if second_query[0].upper() == "TITLE" or "AUTHOR" or "GENRE":
                 types[1] = second_query[0]
             elif second_query[0].upper() == "PUBLISHED":
                 types[1] = second_query[1]
@@ -139,7 +139,7 @@ def validate_query(input_list):
             return False, result_second
     else:
         # Not compund, so just do 1
-        if first_query[0].upper() == "TITLE" | "AUTHOR" | "GENRE":
+        if first_query[0].upper() == "TITLE" or "AUTHOR" or "GENRE":
             dataHandler([first_query[2]], [first_query[0]])
         elif first_query[0].upper() == "PUBLISHED":
             dataHandler([first_query[2]], [first_query[1]])
@@ -161,7 +161,7 @@ def dataHandler(userIn, type):
     type = type.upper()
 
     # Ensure the parameters are the right length
-    if len(userIn) > 2 | len(userIn) < 1 | len(userIn) != len(type):
+    if len(userIn) > 2 or len(userIn) < 1 or len(userIn) != len(type):
         return 1
     # Check if compound or not
     compound = False
@@ -170,7 +170,7 @@ def dataHandler(userIn, type):
 
     # /// Now we ask for the data \\\
     
-    if type == "IN" | "BEFORE" | "AFTER":
+    if type == "IN" or "BEFORE" or "AFTER":
         if type == "BEFORE":
             operator = "<="
         elif type == "AFTER":
@@ -240,4 +240,3 @@ def main():
         validate_query(tokenize(input()))
 
 main()
-
